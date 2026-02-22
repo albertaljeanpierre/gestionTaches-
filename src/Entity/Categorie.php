@@ -75,4 +75,9 @@ class Categorie
 
         return $this;
     }
+
+    public function _toString()
+    {
+        return $this->getNom();
+    }
 }

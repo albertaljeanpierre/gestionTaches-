@@ -4,21 +4,41 @@
 {% endblock %}
 
 {% block body %}
-	 
-		
-		<main>
 
 
-			<section>
-				<h2 class="">Taches en cours
-				</h2>
-			</section>
-			<section>
-				<h2>Taches en attente
-				</h2>
-			</section>
-		</main>
+	<main>
 
-	 
+
+		<section>
+			<h2 class="">Taches en cours
+				<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnAttente  }}</span>
+			</h2>
+		</section>
+		<section>
+			<h2>Taches en attente
+				<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnAttente  }}</span>
+			</h2>
+
+			<div class="row ">
+				{% for tacheGroup in tacheEnAttente %}
+
+
+					<div class="{{ tacheGroup.0.categorie.nom|lower }} tacheGroup m-4 ">
+						<h3>
+							{{ tacheGroup.0.categorie.nom }}
+						</h3>
+						{% for tache in tacheGroup %}
+							<ul>
+								<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }} </li>
+
+							</ul>
+
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+	</main>
+
 
 {% endblock %}
