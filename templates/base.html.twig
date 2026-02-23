@@ -16,7 +16,10 @@
 	</head>
 	<body>
 		{% include '_partials/_navbar.html.twig' %}
-		<div class="container"> {% block body %}{% endblock %}
+		<div class="container">
+		{% include '_partials/_message_flash.html.twig' %}
+		
+		 {% block body %}{% endblock %}
 			</div>
 			{% include '_partials/_footer.html.twig' %}
 		</body>

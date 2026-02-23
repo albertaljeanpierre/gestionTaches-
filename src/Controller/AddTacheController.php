@@ -26,7 +26,7 @@ final class AddTacheController extends AbstractController
             $task = $form->getData();
             $entityManager->persist($tache);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Votre tache à été ajoutée!');
 
             return $this->redirectToRoute('app_home');
         }

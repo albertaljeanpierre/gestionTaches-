@@ -22,16 +22,16 @@ final class AddCategorieController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $form->getData();
+            $data = $form->getData();
+            // dd($data->getnom()); 
             $entityManager->persist($categorie);
             $entityManager->flush();
-
+            $this->addFlash('success', "La catégorie <b>{$categorie->getNom()}</b> à été ajoutée!");
 
             return $this->redirectToRoute('app_add_categorie');
         }
         $repoCategorie = $entityManager->getRepository(Categorie::class); 
         $categories = $repoCategorie->findAll(); 
-
  
         return $this->render('add_categorie/index.html.twig', [
             'form' => $form,
