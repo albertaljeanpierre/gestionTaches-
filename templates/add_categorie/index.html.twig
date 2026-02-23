@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une catégorie
+{% endblock %}
+
+{% block body %}
+
+	<div class="row">
+		<div class="col-6">
+			<h2>Ajouter une catégorie</h2>
+			{{ form_start(form) }}
+			{{ form_errors(form) }}
+
+			{{ form_row(form.nom) }}
+			{{ form_row(form.save) }}
+			{{ form_end(form) }}
+		</div>
+		<div class="col-6">
+			<h2>
+				Liste des catégories existantes <span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbCategories }}</span>
+			</h2>
+			<ul class="categorieListe"> 
+				{% for categorie in listeCategorie %}
+					<li class="{{ categorie.nom|lower }}    "><h3>{{ categorie.nom }}</h3></li>
+				{% endfor %}
+			</ul>
+		</div>
+
+	</div>
+
+
+{% endblock %}

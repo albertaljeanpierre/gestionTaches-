@@ -22,19 +22,31 @@
 			<div class="row ">
 				{% for tacheGroup in tacheEnAttente %}
 
+{% if tacheGroup  is empty  %}
+						 {% else %}
+					<div class="
+						{% if tacheGroup  is empty  %}	 
+						{% else %}
+							 {{ tacheGroup.0.categorie.nom|lower }}
+						{% endif %} tacheGroup m-4 ">
 
-					<div class="{{ tacheGroup.0.categorie.nom|lower }} tacheGroup m-4 ">
+						
 						<h3>
 							{{ tacheGroup.0.categorie.nom }}
 						</h3>
 						{% for tache in tacheGroup %}
 							<ul>
-								<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }} </li>
+								<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }}
+								</li>
 
 							</ul>
+											  
+					
 
 						{% endfor %}
 					</div>
+{% endif %}	
+					
 				{% endfor %}
 			</div>
 		</section>

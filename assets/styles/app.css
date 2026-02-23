@@ -57,7 +57,7 @@ h6,
 .h5,
 .h6 {
     font-family: "Jura", sans-serif;
-    margin: 40px 0 20px 0;
+    margin: 30px 0 20px 0;
     color: #333;
 
 }
@@ -201,26 +201,29 @@ label.required::after {
 
 }
 
-.tacheGroup ul {
+.tacheGroup ul , .categorieListe {
     list-style-type: none;
     margin: 0;
     padding: 0;
 
 }
 
-.tacheGroup h3 {
+.tacheGroup h3, .categorieListe h3 {
     background-color: #4EB9CD;
     margin: 0 0 15px 0;
     padding: 4px 25px;
     color: #fff;
     border-radius: 15px 15px 0 0;
 }
-
+.categorieListe h3 {
+    width: max-content;
+    border-radius: 15px  ;
+}
 .tacheGroup li {
     padding: 5px 10px;
 }
 
-.tacheGroup.films h3 {
+.tacheGroup.films h3, .categorieListe .films h3 {
     background-color: var(--color-third-alt);
 }
 
@@ -228,7 +231,7 @@ label.required::after {
     border: solid var(--color-third-alt);
 }
 
-.tacheGroup.lectures h3 {
+.tacheGroup.lectures h3 , .categorieListe .lectures h3 {
     background-color: var(--color-primary-alt-dark);
 }
 
@@ -236,7 +239,29 @@ label.required::after {
     border: solid var(--color-primary-alt-dark);
 }
 
-/* .tacheGroup.films h3 {
+ .tacheGroup.formation h3,  .categorieListe .formation h3 {
+    background-color: var(--color-yellow);
+}
+
+.tacheGroup.formation     {
+    border: 1px solid var(--color-yellow);
+}
+  .tacheGroup.livre h3 , .categorieListe .livre h3 {
+    background-color: var(--color-secondary-alt);
+}
+
+.tacheGroup.livre  {
+    border: 1px solid var(--color-secondary-alt);
+}
+
+  .tacheGroup.maison h3 , .categorieListe .maison h3 {
+    background-color: var(--color-exotic);
+}
+
+.tacheGroup.maison {
+    border: 1px solid var(--color-exotic);
+}
+/* .tacheGroup.films h3 , .categorieListe .films h3 {
     background-color: var(--color-third-alt);
 }
 
@@ -244,10 +269,5 @@ label.required::after {
     border: 1px solid var(--color-third-alt);
 }
 
-.tacheGroup.films h3 {
-    background-color: var(--color-third-alt);
-}
 
-.tacheGroup.films {
-    border: 1px solid var(--color-third-alt);
-} */
+ */
