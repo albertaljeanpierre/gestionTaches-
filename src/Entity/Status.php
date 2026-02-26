@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\StatusTacheRepository;
+use App\Repository\StatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: StatusTacheRepository::class)]
-class StatusTache
+#[ORM\Entity(repositoryClass: StatusRepository::class)]
+class Status
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,11 +22,11 @@ class StatusTache
      * @var Collection<int, Tache>
      */
     #[ORM\OneToMany(targetEntity: Tache::class, mappedBy: 'status')]
-    private Collection $taches;
+    private Collection $tache;
 
     public function __construct()
     {
-        $this->taches = new ArrayCollection();
+        $this->tache = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,27 +49,27 @@ class StatusTache
     /**
      * @return Collection<int, Tache>
      */
-    public function getTaches(): Collection
+    public function getTache(): Collection
     {
-        return $this->taches;
+        return $this->tache;
     }
 
-    public function addTach(Tache $tach): static
+    public function addTache(Tache $tache): static
     {
-        if (!$this->taches->contains($tach)) {
-            $this->taches->add($tach);
-            $tach->setStatus($this);
+        if (!$this->tache->contains($tache)) {
+            $this->tache->add($tache);
+            $tache->setStatus($this);
         }
 
         return $this;
     }
 
-    public function removeTach(Tache $tach): static
+    public function removeTache(Tache $tache): static
     {
-        if ($this->taches->removeElement($tach)) {
+        if ($this->tache->removeElement($tache)) {
             // set the owning side to null (unless already changed)
-            if ($tach->getStatus() === $this) {
-                $tach->setStatus(null);
+            if ($tache->getStatus() === $this) {
+                $tache->setStatus(null);
             }
         }
 

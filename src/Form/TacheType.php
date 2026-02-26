@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Categorie;
+use App\Entity\Status;
 use App\Entity\StatusTache;
 use App\Entity\Tache;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,7 +20,7 @@ class TacheType extends AbstractType
             ->add('nom')
             ->add('description')
             ->add('status', EntityType::class, [
-                'class' => StatusTache::class,
+                'class' => Status::class,
                 'choice_label' => 'nom',
                   
 

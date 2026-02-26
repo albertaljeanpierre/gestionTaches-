@@ -19,13 +19,13 @@ class Tache
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'taches')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?StatusTache $status = null;
-
-    #[ORM\ManyToOne(inversedBy: 'taches')]
+    #[ORM\ManyToOne(inversedBy: 'tache')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tache')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Status $status = null;
 
     public function getId(): ?int
     {
@@ -56,18 +56,6 @@ class Tache
         return $this;
     }
 
-    public function getStatus(): ?StatusTache
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?StatusTache $status): static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function getCategorie(): ?Categorie
     {
         return $this->categorie;
@@ -76,6 +64,18 @@ class Tache
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

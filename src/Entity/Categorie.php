@@ -22,11 +22,11 @@ class Categorie
      * @var Collection<int, Tache>
      */
     #[ORM\OneToMany(targetEntity: Tache::class, mappedBy: 'categorie')]
-    private Collection $taches;
+    private Collection $tache;
 
     public function __construct()
     {
-        $this->taches = new ArrayCollection();
+        $this->tache = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,27 +49,27 @@ class Categorie
     /**
      * @return Collection<int, Tache>
      */
-    public function getTaches(): Collection
+    public function getTache(): Collection
     {
-        return $this->taches;
+        return $this->tache;
     }
 
-    public function addTach(Tache $tach): static
+    public function addTache(Tache $tache): static
     {
-        if (!$this->taches->contains($tach)) {
-            $this->taches->add($tach);
-            $tach->setCategorie($this);
+        if (!$this->tache->contains($tache)) {
+            $this->tache->add($tache);
+            $tache->setCategorie($this);
         }
 
         return $this;
     }
 
-    public function removeTach(Tache $tach): static
+    public function removeTache(Tache $tache): static
     {
-        if ($this->taches->removeElement($tach)) {
+        if ($this->tache->removeElement($tache)) {
             // set the owning side to null (unless already changed)
-            if ($tach->getCategorie() === $this) {
-                $tach->setCategorie(null);
+            if ($tache->getCategorie() === $this) {
+                $tache->setCategorie(null);
             }
         }
 

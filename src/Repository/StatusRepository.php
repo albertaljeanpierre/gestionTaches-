@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\StatusTache;
+use App\Entity\Status;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<StatusTache>
+ * @extends ServiceEntityRepository<Status>
  */
-class StatusTacheRepository extends ServiceEntityRepository
+class StatusRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, StatusTache::class);
+        parent::__construct($registry, Status::class);
     }
 
     //    /**
-    //     * @return StatusTache[] Returns an array of StatusTache objects
+    //     * @return Status[] Returns an array of Status objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class StatusTacheRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?StatusTache
+    //    public function findOneBySomeField($value): ?Status
     //    {
     //        return $this->createQueryBuilder('s')
     //            ->andWhere('s.exampleField = :val')
