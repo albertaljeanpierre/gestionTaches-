@@ -22,13 +22,12 @@ class TacheType extends AbstractType
             ->add('status', EntityType::class, [
                 'class' => Status::class,
                 'choice_label' => 'nom',
-                  'data_class' => Tache::class
+                  
 
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'nom',
-                'data_class' => Tache::class
             ])
             ->add('save', SubmitType::class , [
                 'label' => 'Enregistrer cette tache',
