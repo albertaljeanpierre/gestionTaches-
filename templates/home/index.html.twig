@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Organisation
+{% block title %} Mon Organisation
 {% endblock %}
 
 {% block body %}
@@ -10,12 +10,12 @@
 
 
 		<section>
-			<h2 class="">Taches en cours
+			<h2 class="">✅ Taches en cours
 				<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnAttente  }}</span>
 			</h2>
 		</section>
 		<section>
-			<h2>Taches en attente
+			<h2>⏳ Taches en attente
 				<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnAttente  }}</span>
 			</h2>
 
@@ -37,6 +37,7 @@
 						{% for tache in tacheGroup %}
 							<ul>
 								<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }}
+								<span class="edit float-end" title="Editer cette tache" >&nbsp;&nbsp;✎</span>
 								</li>
 
 							</ul>

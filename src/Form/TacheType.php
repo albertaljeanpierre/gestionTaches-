@@ -21,6 +21,8 @@ class TacheType extends AbstractType
             ->add('status', EntityType::class, [
                 'class' => StatusTache::class,
                 'choice_label' => 'nom',
+                  
+
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,

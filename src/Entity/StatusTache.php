@@ -54,22 +54,22 @@ class StatusTache
         return $this->taches;
     }
 
-    public function addTach(Tache $tach): static
+    public function addTache(Tache $tache): static
     {
-        if (!$this->taches->contains($tach)) {
-            $this->taches->add($tach);
-            $tach->setStatus($this);
+        if (!$this->taches->contains($tache)) {
+            $this->taches->add($tache);
+            $tache->setStatus($this);
         }
 
         return $this;
     }
 
-    public function removeTach(Tache $tach): static
+    public function removeTach(Tache $tache): static
     {
-        if ($this->taches->removeElement($tach)) {
+        if ($this->taches->removeElement($tache)) {
             // set the owning side to null (unless already changed)
-            if ($tach->getStatus() === $this) {
-                $tach->setStatus(null);
+            if ($tache->getStatus() === $this) {
+                $tache->setStatus(null);
             }
         }
 

@@ -89,7 +89,7 @@ h2 {
     border-bottom: 1px solid #ccc;
     padding-bottom: 1px;
     font-size: 30px;
-    line-height: 30px;
+    padding-top: 5px;
 }
 
 nav+h1 {
@@ -198,7 +198,7 @@ label.required::after {
     padding: 0;
     width: max-content;
     border-radius: 18px 18px 10px 10px;
-
+    background-color: rgba(255,255,255,0.2);
 }
 
 .tacheGroup ul , .categorieListe {
@@ -215,6 +215,10 @@ label.required::after {
     color: #fff;
     border-radius: 15px 15px 0 0;
 }
+.tacheGroup h3::before, .categorieListe h3::before {
+    content: ' 🧾 ';
+}
+
 .categorieListe h3 {
     width: max-content;
     border-radius: 15px  ;
@@ -226,13 +230,18 @@ label.required::after {
 .tacheGroup.films h3, .categorieListe .films h3 {
     background-color: var(--color-third-alt);
 }
-
+.tacheGroup.films h3::before , .categorieListe .films h3::before{
+    content: ' 🎥 ';
+}
 .tacheGroup.films {
     border: solid var(--color-third-alt);
 }
 
 .tacheGroup.lectures h3 , .categorieListe .lectures h3 {
     background-color: var(--color-primary-alt-dark);
+}
+.tacheGroup.lectures h3::before , .categorieListe .lectures h3::before{
+    content: ' 📖 ';
 }
 
 .tacheGroup.lectures {
@@ -242,31 +251,40 @@ label.required::after {
  .tacheGroup.formation h3,  .categorieListe .formation h3 {
     background-color: var(--color-yellow);
 }
+.tacheGroup.formation h3::before , .categorieListe .formation h3::before{
+    content: ' 🧰 ';
+}
 
 .tacheGroup.formation     {
-    border: 1px solid var(--color-yellow);
+    border:  solid var(--color-yellow);
 }
   .tacheGroup.livre h3 , .categorieListe .livre h3 {
     background-color: var(--color-secondary-alt);
 }
+.tacheGroup.livre h3::before , .categorieListe .livre h3::before{
+    content: ' 📻 ';
+}
 
 .tacheGroup.livre  {
-    border: 1px solid var(--color-secondary-alt);
+    border: solid var(--color-secondary-alt);
 }
 
   .tacheGroup.maison h3 , .categorieListe .maison h3 {
     background-color: var(--color-exotic);
 }
+.tacheGroup.maison h3::before , .categorieListe .maison h3::before{
+    content: ' 🏡 ';
+}
 
 .tacheGroup.maison {
-    border: 1px solid var(--color-exotic);
+    border: solid var(--color-exotic);
 }
 /* .tacheGroup.films h3 , .categorieListe .films h3 {
     background-color: var(--color-third-alt);
 }
 
 .tacheGroup.films {
-    border: 1px solid var(--color-third-alt);
+    border: solid var(--color-third-alt);
 }
 
 
