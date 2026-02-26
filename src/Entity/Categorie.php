@@ -54,30 +54,25 @@ class Categorie
         return $this->taches;
     }
 
-    public function addTache(Tache $tache): static
+    public function addTach(Tache $tach): static
     {
-        if (!$this->taches->contains($tache)) {
-            $this->taches->add($tache);
-            $tache->setCategorie($this);
+        if (!$this->taches->contains($tach)) {
+            $this->taches->add($tach);
+            $tach->setCategorie($this);
         }
 
         return $this;
     }
 
-    public function removeTache(Tache $tache): static
+    public function removeTach(Tache $tach): static
     {
-        if ($this->taches->removeElement($tache)) {
+        if ($this->taches->removeElement($tach)) {
             // set the owning side to null (unless already changed)
-            if ($tache->getCategorie() === $this) {
-                $tache->setCategorie(null);
+            if ($tach->getCategorie() === $this) {
+                $tach->setCategorie(null);
             }
         }
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getNom();
     }
 }
