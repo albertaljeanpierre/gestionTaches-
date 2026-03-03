@@ -37,7 +37,7 @@
 						{% for tache in tacheGroup %}
 							<ul>
 								<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }}
-								<span class="edit float-end" title="Editer cette tache" >&nbsp;&nbsp;✎</span>
+								<span class="edit float-end" title="Editer cette tache" >&nbsp;&nbsp;<a href="{{ path('app_edit_tache' , {'id': tache.id} ) }}" >✎</a></span>
 								</li>
 
 							</ul>
