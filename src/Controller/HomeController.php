@@ -17,25 +17,31 @@ final class HomeController extends AbstractController
 
         $repoTache = $entityManager->getRepository(Tache::class);
         $repoCategorie =  $entityManager->getRepository(Categorie::class);
-        $nbCategorie = count($repoCategorie->findAll()); 
+        $nbCategorie = count($repoCategorie->findAll());
 
-
-
-
-        $tacheEnAttente =  [];  
-        for ($i=1; $i <= $nbCategorie ; $i++) { 
+        $tacheEnAttente =  [];
+        $tacheEnCours =  [];
+        for ($i = 1; $i <= $nbCategorie; $i++) {
             $tacheEnAttente[] =  $repoTache->findBy([
-            'status' => 1, // tache en attente 
-            'categorie' => $i, 
-        ]);
+                'status' => 1, // tache en attente 
+                'categorie' => $i,
+            ]);
+            $tacheEnCours[] =  $repoTache->findBy([
+                'status' => 2, // tache en cours 
+                'categorie' => $i,
+            ]);
         }
-      
-
-  // dd($tacheEnAttente);
+        $nbTacheEnCours = (count($tacheEnCours, COUNT_RECURSIVE) - count($tacheEnCours));
+        if ($nbTacheEnCours >= 5 ) {
+            $this->addFlash('warning', ' Tu as 5 taches en cours ou plus attention à na pas te disperser…  '); 
+        }
+        // dd($tacheEnAttente);
 
         return $this->render('home/index.html.twig', [
-            'nbTacheEnAttente' => ( count($tacheEnAttente, COUNT_RECURSIVE) - count($tacheEnAttente )) ,
+            'nbTacheEnAttente' => (count($tacheEnAttente, COUNT_RECURSIVE) - count($tacheEnAttente)),
+            'nbTacheEnCours' =>  $nbTacheEnCours,
             'tacheEnAttente' => $tacheEnAttente,
+            'tacheEnCours' => $tacheEnCours,
 
         ]);
     }
