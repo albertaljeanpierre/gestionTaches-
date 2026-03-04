@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{# templates/form/custom_fields.html.twig #}
+{# {% extends 'form_div_layout.html.twig' %} #}
+	{% block title %}
+Ajouter une tache
+{% endblock %}
+
+	{% block body %}<h2>
+	➕ Ajouter une tache
+	</h2>
+
+	{{ form_start(form) }}
+	{{ form_errors(form) }}
+		<div class="row"> <div class="col-6">
+			{{ form_row(form.nom) }}
+		</div>
+		<div class="col-2">
+		 {{form_label(form.status) }}
+			<select name="{{ form.status.vars.full_name }}" id="{{ form.status.vars.id }}" class="form-select">
+				{% for choice in form.status.vars.choices %}
+					<option value="{{ choice.value }}"
+					 {# Personnalisation : Désactiver si la valeur est '3' #}
+					 {{ choice.value == '3' ? 'disabled' : '' }}
+					 {{ choice.value == form.status.vars.value ? 'selected' : '' }}>
+						{{ choice.label }}
+					</option>
+				{% endfor %}
+			</select>
+
+
+		{{ form_errors(form.status) }}
+
+		{# {{ form_row(form.status) }} #}
+	</div>
+	<div class="col-2">
+		{{ form_row(form.categorie) }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-6">
+		{{ form_row(form.description) }}
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		{{ form_row(form.save) }}
+	</div>
+</div>
+<input type="hidden" id="tache_delete_token" name="tache[delete_token]" data-controller="csrf-protection" value="{{ csrf_token('delete') }}">
+
+{# Génère le token pour une intention spécifique (ex: 'delete_item') #}
+    {# <input type="hidden" name="_token" value="{{ csrf_token('delete_item') }}"> #}
+{# Ferme simplement le formulaire, utile si vous gérez manuellement tous les champs ou si vous souhaitez placer le jeton CSRF manuellement ailleurs #}
+{{ form_end(form , {'render_rest': false} ) }}
+{% endblock %}

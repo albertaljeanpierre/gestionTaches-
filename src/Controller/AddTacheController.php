@@ -17,23 +17,34 @@ final class AddTacheController extends AbstractController
     {
 
         $tache = new Tache();
-        $form = $this->createForm(TacheType::class, $tache);
+        $options = [
+            'csrf_field_name' => 'delete_token',
+            'csrf_token_id' => 'delete',
+        ];
+        // $options permet de passer des informations personnalisées pour le champ caché CSRF
+        $form = $this->createForm(TacheType::class, $tache, $options);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
+
             $task = $form->getData();
+            $statusId =  $form->get('status')->getData()->getId();
+            if ($statusId === 3) { // Si le status de la tâche est "Terminée" alors interdiction de créer la tache directement.
+                $this->addFlash('danger', 'Vous ne pouvez pas créer une tâche qui a le statut « Terminer » directement, créer une tâche avec le statut « En attente ».');
+                return $this->redirectToRoute('app_add_tache');
+            }
+
             $entityManager->persist($tache);
             $entityManager->flush();
             $this->addFlash('success', 'Votre tache à été ajoutée!');
 
             return $this->redirectToRoute('app_home');
         }
-
-
-        return $this->render('add_tache/index.html.twig', [
+        return $this->render('add_tache/ajoutTache.html.twig', [
             'form' => $form,
         ]);
+        // return $this->render('add_tache/index.html.twig', [
+        //     'form' => $form,
+        // ]);
     }
 }
