@@ -10,9 +10,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * EditController Class permettant la gestion d’édition  
+ *  - Permet la modification des données d’une tache 
+ *  - 
+ */
 final class EditController extends AbstractController
 {
     #[Route('/edit', name: 'app_edit')]
+    /**
+     * index Route par défaut, interdite car il faut un paramètre pour identifier la tache à modifier  
+     *
+     * @return Response
+     */
     public function index(): Response
     {
         $this->addFlash('danger', '
@@ -26,7 +36,29 @@ final class EditController extends AbstractController
         // ]);
     }
 
-    #[Route('/edit/tache/{id<\d+>}', name: 'app_edit_tache')] // L'ID ne peut contenir que des chiffres 
+    #[Route('/edit/tache/', name: 'app_edit__tache')]
+    /**
+     * tache Route interdite car il faut un paramètre pour identifier la tache à modifier  
+     *
+     * @return Response
+     */
+    public function tache(): Response
+    {
+        $this->addFlash('danger', '
+        <p>⛔ Vous n\'avez pas acces à cette route! 
+        <br> Pour éditer cliquer sur le lien d\'édition de la tache ou de la catégorie que vous souhaitez éditer.</p>');
+        return   $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/edit/tache/{id<\d+>}', name: 'app_edit_tache')] // L'ID ne peut contenir que des chiffres     
+    /**
+     * editTache Permet d’éditer une tache 
+     *
+     * @param  mixed $id L’identifiant de la tache à éditer  
+     * @param  mixed $request La requête contenant les données à modifier     
+     * @param  mixed $entityManager Entité de gestion de la base de donnée      
+     * @return Response Les données sont retournées pour affichage 
+     */
     public function editTache(Tache $id, Request $request, EntityManagerInterface  $entityManager): Response
     {
         $repoTache =  $entityManager->getRepository(Tache::class);
@@ -38,37 +70,37 @@ final class EditController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $tacheform =  $form->getData();
+            $tacheData =  $form->getData();
+            /*************************************************
+             * Gestion des dates de début et de fin de tache *
+             *************************************************/
             $statusId =  $form->get('status')->getData()->getId();
-            if ($statusId === 2) { // Si le status de la tâche est "En cours" alors insertion d'une date
-                // Données de statistique : Date de début 
-                $dateDebut = $tache->getDateDebut(); 
-                if ($dateDebut === null) { // Modifie la date de début uniquement si elle n'a pas été déjà définie
-                    $tache->setDateDebut(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Brussels')));
-                } 
-                
-                // Dans le cas ou une tache passerait de "Terminée" à "En cours" il faut annuler les données déjà enregistrée : soit les champs  	date_fin, 	duree, 	duree_str. 
-                $tache->setDuree(null); 
-                $tache->setDateFin(null); 
-                $tache->setDureeStr(null); 
-            }
-            if ($statusId === 3) { // Si le status de la tâche est "Terminée" alors insertion d'une date et calcul de la durée en deux formats
-                // Données de statistique : Date de fin  
-                $maintenant = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Brussels')); 
-                $tache->setDateFin($maintenant);
-                // Données de statistique : Calcul de la durée : Formatage timestamp 
-                $dateDebut = $tache->getDateDebut(); 
-                $duree = ( $dateDebut->getTimestamp() - $maintenant->getTimestamp()); 
-                $tache->setDuree($duree ); 
-                // Données de statistique : Calcul de la durée : Formatage lisible par un humain 
+            switch ($statusId) {
+                case '1': // Si le status de la tâche repasse en "En attente" alors reset des données de temps
+                    $tache->setDateFin(null);
+                    $tache->setDateDebut(null);
+                    break;
+                case '2': // Si le status de la tâche est "En cours" alors insertion d'une date de début de la tache
+                    $dateDebut = $tache->getDateDebut();
+                    if ($dateDebut === null) { // Modifie la date de début uniquement si elle n'a pas été déjà définie (en cas de modification d'un autre champ, il ne faut pas que la date change)
+                        $tache->setDateDebut(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Brussels')));
+                    }
+                    break;
+                case '3': // Si le status de la tâche est "Terminée" alors insertion d'une date de fin
+                    $maintenant = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Brussels'));
+                    $tache->setDateFin($maintenant);
+                    break;
 
-            }
-            if ($statusId === 1) { // Si le status de la tâche repasse en "En attente" alors reset des données de temps
-                 $tache->setDateFin(null); 
-                 $tache->setDateDebut(null); 
-            }
+                default:
+                    $this->addFlash('danger', '<p>⛔ Une erreur c\'est produite. Statut de tache incorrect !!  
+        <br> Pour éditer cliquer sur le lien d\'édition de la tache ou de la catégorie que vous souhaitez éditer.</p>');
 
-            $entityManager->persist($tacheform);
+                    return   $this->redirectToRoute('app_home');
+                    break;
+            }
+            
+            // Enregistrement des données en base  
+            $entityManager->persist($tacheData);
             $entityManager->flush();
             $this->addFlash('success', 'Votre tache à été modifiée.');
 
