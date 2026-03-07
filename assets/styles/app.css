@@ -141,7 +141,9 @@ label.required::after {
     content: " * ";
     color: red;
 }
-
+[disabled] {
+   cursor: not-allowed;
+}
 
 /* Nav */
 .navbar {

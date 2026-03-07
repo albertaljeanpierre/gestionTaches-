@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tache;
+use App\Form\TacheTermineeType;
 use App\Form\TacheType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,12 +64,13 @@ final class EditController extends AbstractController
     {
         $repoTache =  $entityManager->getRepository(Tache::class);
         $tache =  $repoTache->find($id);
-        // dd($tache ); 
 
         $form = $this->createForm(TacheType::class, $tache);
+        $form2 = $this->createForm(TacheTermineeType::class, $tache);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $form2->handleRequest($request);
+        if (($form->isSubmitted() && $form->isValid()) or ($form2->isSubmitted() && $form2->isValid())) {
 
             $tacheData =  $form->getData();
             /*************************************************
@@ -98,7 +100,7 @@ final class EditController extends AbstractController
                     return   $this->redirectToRoute('app_home');
                     break;
             }
-            
+
             // Enregistrement des données en base  
             $entityManager->persist($tacheData);
             $entityManager->flush();
@@ -107,8 +109,18 @@ final class EditController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('edit/tache.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        // Gestion de la modification du statut si on édite une tache terminée, on ne peut que modifier son statut et rien d'autre. 
+        $tacheStatus = $tache->getStatus()->getId();
+        if ($tacheStatus === 3) {
+            $form2 = $this->createForm(TacheTermineeType::class, $tache);
+            $this->addFlash('info', '<span style="font-size: xx-large;">🛈</span> Pour cette tâche, vous ne pouvez modifier que son statut car c’est une tache terminée.');
+            return $this->render('edit/tache.html.twig', [
+                'form' => $form2->createView(),
+            ]);
+        } else {
+            return $this->render('edit/tache.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
     }
 }
