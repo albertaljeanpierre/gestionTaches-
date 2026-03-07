@@ -15,7 +15,7 @@ class CategorieType extends AbstractType
     {
         $builder
             ->add('nom' , TextType::class, [
-                 'data' => '',
+                 
             ])
              ->add('save', SubmitType::class , [
                 'label' => 'Enregistrer cette catégorie',

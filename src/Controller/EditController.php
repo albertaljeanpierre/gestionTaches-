@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Tache;
+use App\Form\CategorieType;
 use App\Form\TacheTermineeType;
 use App\Form\TacheType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -104,7 +106,7 @@ final class EditController extends AbstractController
             // Enregistrement des données en base  
             $entityManager->persist($tacheData);
             $entityManager->flush();
-            $this->addFlash('success', 'Votre tache à été modifiée.');
+            $this->addFlash('success', 'Votre tache a été modifiée.');
 
             return $this->redirectToRoute('app_home');
         }
@@ -122,5 +124,57 @@ final class EditController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
+    }
+
+    #[Route('/edit/categorie/{id<\d+>}', name: 'app_edit_categorie')]
+    /**
+     * editCategorie Permet la modification du nom de la catégorie 
+     *
+     * @param  mixed $id L’identifiant de la catégorie à modifier  
+     * @param  mixed $entityManager Entité de gestion de la base de donnée   
+     * @param  mixed $request La requête contenant les données à modifier   
+     * @return Response Les données sont retournées pour affichage 
+     */
+    public function editCategorie(Categorie $id, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $repoCategorie =  $entityManager->getRepository(Categorie::class);
+        $categorie =  $repoCategorie->find($id);
+        // dd($categorie); 
+
+        $form = $this->createForm(CategorieType::class, $categorie);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $categorieData =  $form->getData();
+            // Enregistrement des données en base  
+            $entityManager->persist($categorieData);
+            $entityManager->flush();
+            $this->addFlash('success', 'La catégorie a été modifiée avec succès.');
+
+            return $this->redirectToRoute('app_edit_categorie_liste');
+        }
+
+        return $this->render('edit/categorie.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/edit/categorie/', name: 'app_edit_categorie_liste')]    
+    /**
+     * categorieListe Affiche la liste des catégories avec un lien qui permet d’éditer cette catégorie  
+     *
+     * @param  mixed $entityManager Entité de gestion de la base de donnée 
+     * @return Response Les données sont retournées pour affichage 
+     */
+    public function categorieListe(EntityManagerInterface $entityManager): Response
+    {
+        $repoCategorie = $entityManager->getRepository(Categorie::class);
+        $categories = $repoCategorie->findAll();
+        $nbCategorie = count($categories);
+     
+        return $this->render('edit/index.html.twig', [
+            'categories' => $categories,
+            'nbCategorie' => $nbCategorie, 
+        ]);
     }
 }

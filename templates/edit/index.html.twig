@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EditController!{% endblock %}
+{% block title %}Liste des catégories
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>F:/Projet-PHP-2026/organisations/src/Controller/EditController.php</code></li>
-        <li>Your template at <code>F:/Projet-PHP-2026/organisations/templates/edit/index.html.twig</code></li>
-    </ul>
-</div>
+	<h2>Liste des catégories</h2>
+	<table class="table" style="width: 50%">
+		<tr>
+			<th>Nom de la catégorie</th>
+			<th>Actions</th>
+		</tr>
+		{% for categorie in  categories %}
+			<tr class="categorieListe">
+				<td class="{{ categorie.nom|lower }} ">
+					<h3>{{ categorie.nom }}</h3>
+				</td>
+				<td><a href=" {{ path('app_edit_categorie' , {'id': categorie.id} ) }} " class="btn btn-dark" style="text-decoration: none;">Éditer</a></td>
+			</tr>
+		{% endfor %}
+	</table>
 {% endblock %}
