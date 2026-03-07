@@ -27,6 +27,18 @@ class Tache
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $dateDebut = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $dateFin = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $duree = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dureeStr = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +88,54 @@ class Tache
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDateDebut(): ?\DateTimeImmutable
+    {
+        return $this->dateDebut;
+    }
+
+    public function setDateDebut(?\DateTimeImmutable $dateDebut): static
+    {
+        $this->dateDebut = $dateDebut;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeImmutable
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(?\DateTimeImmutable $dateFin): static
+    {
+        $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getDuree(): ?int
+    {
+        return $this->duree;
+    }
+
+    public function setDuree(?int $duree): static
+    {
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getDureeStr(): ?string
+    {
+        return $this->dureeStr;
+    }
+
+    public function setDureeStr(?string $dureeStr): static
+    {
+        $this->dureeStr = $dureeStr;
 
         return $this;
     }

@@ -33,7 +33,10 @@ final class AddTacheController extends AbstractController
                 $this->addFlash('danger', 'Vous ne pouvez pas créer une tâche qui a le statut « Terminer » directement, créer une tâche avec le statut « En attente ».');
                 return $this->redirectToRoute('app_add_tache');
             }
-
+            if ($statusId === 2) { // Si le status de la tâche est "En cours" alors insertion d'une date
+                // Données de statistique : Date de début  
+                $tache->setDateDebut(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Brussels') ));
+            }
             $entityManager->persist($tache);
             $entityManager->flush();
             $this->addFlash('success', 'Votre tache à été ajoutée!');

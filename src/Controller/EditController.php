@@ -31,15 +31,43 @@ final class EditController extends AbstractController
     {
         $repoTache =  $entityManager->getRepository(Tache::class);
         $tache =  $repoTache->find($id);
-         // dd($tache ); 
+        // dd($tache ); 
 
         $form = $this->createForm(TacheType::class, $tache);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
- 
+
             $tacheform =  $form->getData();
-            // dd($tache ); 
+            $statusId =  $form->get('status')->getData()->getId();
+            if ($statusId === 2) { // Si le status de la tâche est "En cours" alors insertion d'une date
+                // Données de statistique : Date de début 
+                $dateDebut = $tache->getDateDebut(); 
+                if ($dateDebut === null) { // Modifie la date de début uniquement si elle n'a pas été déjà définie
+                    $tache->setDateDebut(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Brussels')));
+                } 
+                
+                // Dans le cas ou une tache passerait de "Terminée" à "En cours" il faut annuler les données déjà enregistrée : soit les champs  	date_fin, 	duree, 	duree_str. 
+                $tache->setDuree(null); 
+                $tache->setDateFin(null); 
+                $tache->setDureeStr(null); 
+            }
+            if ($statusId === 3) { // Si le status de la tâche est "Terminée" alors insertion d'une date et calcul de la durée en deux formats
+                // Données de statistique : Date de fin  
+                $maintenant = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Brussels')); 
+                $tache->setDateFin($maintenant);
+                // Données de statistique : Calcul de la durée : Formatage timestamp 
+                $dateDebut = $tache->getDateDebut(); 
+                $duree = ( $dateDebut->getTimestamp() - $maintenant->getTimestamp()); 
+                $tache->setDuree($duree ); 
+                // Données de statistique : Calcul de la durée : Formatage lisible par un humain 
+
+            }
+            if ($statusId === 1) { // Si le status de la tâche repasse en "En attente" alors reset des données de temps
+                 $tache->setDateFin(null); 
+                 $tache->setDateDebut(null); 
+            }
+
             $entityManager->persist($tacheform);
             $entityManager->flush();
             $this->addFlash('success', 'Votre tache à été modifiée.');
