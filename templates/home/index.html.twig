@@ -1,86 +1,95 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Mon Organisation
+{% block title %}
+	Mon Organisation
 {% endblock %}
 
 {% block body %}
-
-
 	<main>
-
-
 		<section>
-			<h2 class="">✅ Taches en cours
-				<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnCours  }}</span>
-			</h2>
-			{% if nbTacheEnCours == 0  %}
-			<p>Aucune tache en cours pour l'instant....</p>
-			{% endif %}
 			<div class="row ">
-{% for tacheGroup in tacheEnCours %}
+				<div class="col-8">
+					<h2 class="">✅ Taches en cours
+						<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnCours  }}</span>
+					</h2>
+				</div>
+				<div class="col-4">
+				<p>Méditation N° {{ numeroSon }} : </p>
+				<p>  <audio controls autoplay src="{{ pathSon }}"></audio></p>
+				</div>
+				<div class="row ">
+					<div class="col ">
+						{% if nbTacheEnCours == 0  %}
+							<p>Aucune tache en cours pour l'instant....</p>
+						{% endif %}
+					</div>
+				</div>
+				<div class="row ">
+					{% for tacheGroup in tacheEnCours %}
 
-	{% if tacheGroup  is empty  %}
+						{% if tacheGroup  is empty  %}
 							{% else %}
-						<div class="
-							{% if tacheGroup  is empty  %}	 
-							{% else %}
-								{{ tacheGroup.0.categorie.nom|lower }}
-							{% endif %} tacheGroup m-4 ">
+								<div class="
+																				{% if tacheGroup  is empty  %}
+																				{% else %}
+																					{{ tacheGroup.0.categorie.nom|lower }}
+																				{% endif %} tacheGroup m-4 ">
 
-							
-							<h3>
-								{{ tacheGroup.0.categorie.nom }}
-							</h3>
-							{% for tache in tacheGroup %}
-								<ul>
-									<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }}
-									<span class="edit float-end" title="Editer cette tache" >&nbsp;&nbsp;<a href="{{ path('app_edit_tache' , {'id': tache.id} ) }}" >✎</a></span>
-									</li>
 
-								</ul>
-							{% endfor %}
-						</div>
-	{% endif %}	
-					
-{% endfor %}
-		</section>
-		<section>
-			<h2>⏳ Taches en attente
-				<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnAttente  }}</span>
-			</h2>
+									<h3>
+										{{ tacheGroup.0.categorie.nom }}
+									</h3>
+									{% for tache in tacheGroup %}
+										<ul>
+											<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }}
+												<span class="edit float-end" title="Editer cette tache">&nbsp;&nbsp;<a href="{{ path('app_edit_tache' , {'id': tache.id} ) }}">✎</a>
+												</span>
+											</li>
 
-			<div class="row ">
-				{% for tacheGroup in tacheEnAttente %}
-{% if tacheGroup  is empty  %}
-						 {% else %}
-					<div class="
-						{% if tacheGroup  is empty  %}	 
-						{% else %}
-							 {{ tacheGroup.0.categorie.nom|lower }}
-						{% endif %} tacheGroup m-4 ">
+										</ul>
+									{% endfor %}
+								</div>
+						{% endif %}
 
-						
-						<h3>
-							{{ tacheGroup.0.categorie.nom }}
-						</h3>
-						{% for tache in tacheGroup %}
-							<ul>
-								<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }}
-								<span class="edit float-end" title="Editer cette tache" >&nbsp;&nbsp;<a href="{{ path('app_edit_tache' , {'id': tache.id} ) }}" >✎</a></span>
-								</li>
+					{% endfor %}
+				</section>
+				<section>
+					<h2>⏳ Taches en attente
+						<span class="badge rounded-pill text-bg-secondary bg-danger">{{ nbTacheEnAttente  }}</span>
+					</h2>
 
-							</ul>
-											  
-					
+					<div class="row ">
+						{% for tacheGroup in tacheEnAttente %}
+							{% if tacheGroup  is empty  %}
+								{% else %}
+									<div class="
+											{% if tacheGroup  is empty  %}
+											{% else %}
+											{{ tacheGroup.0.categorie.nom|lower }}
+											{% endif %} tacheGroup m-4 ">
+
+
+										<h3>
+											{{ tacheGroup.0.categorie.nom }}
+										</h3>
+										{% for tache in tacheGroup %}
+											<ul>
+												<li data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title=" {{tache.description}}">{{ tache.nom }}
+													<span class="edit float-end" title="Editer cette tache">&nbsp;&nbsp;<a href="{{ path('app_edit_tache' , {'id': tache.id} ) }}">✎</a>
+													</span>
+												</li>
+
+											</ul>
+
+
+										{% endfor %}
+									</div>
+							{% endif %}
 
 						{% endfor %}
 					</div>
-{% endif %}	
-					
-				{% endfor %}
-			</div>
-		</section>
-	</main>
+				</section>
+			</main>
 
 
-{% endblock %}
+		{% endblock %}

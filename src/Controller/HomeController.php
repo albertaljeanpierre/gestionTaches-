@@ -32,17 +32,26 @@ final class HomeController extends AbstractController
             ]);
         }
         $nbTacheEnCours = (count($tacheEnCours, COUNT_RECURSIVE) - count($tacheEnCours));
-        if ($nbTacheEnCours >= 5 ) {
-            $this->addFlash('warning', ' Tu as 5 taches en cours ou plus attention à na pas te disperser…  '); 
+        if ($nbTacheEnCours >= 5) {
+            $this->addFlash('warning', ' Tu as 5 taches en cours ou plus attention à na pas te disperser…  ');
         }
-        // dd($tacheEnAttente);
+        /************************************************
+         * création du nom de fichier son de méditation *
+         ************************************************/
+        $dossier  = "/media/son/petitbambou/";
+        $debutFichier = "daily_fr_";
+        $finFichier = "_12.mp3";
+        $numero = rand(1, 3);
+        $numeroStr =  str_pad($numero, 3, "0", STR_PAD_LEFT); // ajouter des zéros 
+        $path =  $dossier . $debutFichier . $numeroStr . $finFichier;
 
         return $this->render('home/index.html.twig', [
             'nbTacheEnAttente' => (count($tacheEnAttente, COUNT_RECURSIVE) - count($tacheEnAttente)),
             'nbTacheEnCours' =>  $nbTacheEnCours,
             'tacheEnAttente' => $tacheEnAttente,
             'tacheEnCours' => $tacheEnCours,
-
+            'pathSon' => $path, 
+            'numeroSon' => $numero, 
         ]);
     }
 }
