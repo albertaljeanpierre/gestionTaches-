@@ -41,7 +41,7 @@ final class HomeController extends AbstractController
         $dossier  = "/media/son/petitbambou/";
         $debutFichier = "daily_fr_";
         $finFichier = "_12.mp3";
-        $numero = rand(1, 3);
+        $numero = rand(1, 206);
         $numeroStr =  str_pad($numero, 3, "0", STR_PAD_LEFT); // ajouter des zéros 
         $path =  $dossier . $debutFichier . $numeroStr . $finFichier;
 

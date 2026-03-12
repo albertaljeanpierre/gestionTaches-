@@ -139,4 +139,17 @@ class Tache
 
         return $this;
     }
+    /**
+     * getDuration Calcul la différence entre la date de début et de fin de la tache 
+     *  et permet l'affichage avec le format de ton choix via le filtre twig date 
+     * https://openclassrooms.com/forum/sujet/stocker-une-duree-en-base-d-un-intervalle-de-date-e8d10#message-95379355 
+     * @return \DateInterval retourne une instance de \DateInterval  
+     */
+    public function getDuration(): ?\DateInterval
+    {
+        if (!$this->dateDebut || !$this->dateFin) {
+            return null;
+        }
+        return  $this->dateDebut->diff($this->dateFin);
+    }
 }
